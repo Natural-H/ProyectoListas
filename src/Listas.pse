@@ -1,0 +1,121 @@
+Definir primero como EstructuraNombre;  // p
+Definir nuevo como EstructuraNombre;    // w
+Definir ultimo como EstructuraNombre;   // u
+
+Subalgoritmo insertarFinal()
+    Definir dato como Cadena;
+    
+    Si primero = null Entonces
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- nulo;
+
+        primero <- nuevo;
+        ultimo <- primero;
+    SiNo
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- nulo;
+
+        ultimo.siguiente <- nuevo;
+        ultimo <- nuevo;
+    FinSi
+FinSubalgoritmo
+
+Subalgoritmo insertarInicio()
+    Definir dato como Cadena;
+
+    Si primero = null Entonces
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- nulo;
+
+        primero <- nuevo;
+        ultimo <- primero;
+    SiNo
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- primero;
+        primero <- nuevo;
+    FinSi
+FinSubalgoritmo
+
+Subalgoritmo insertarDespuesDelNodo(elemento)
+    // La variable Elemento es, al menos en este caso, el elemento que se buscará para añadir el nuevo nodo si se encontró
+    Definir dato como Cadena;
+    Definir iterador Como EstructuraNombre; // R
+
+    Si primero = null Entonces
+        Escribir "No se pueden buscar nodos en una lista vacía!";
+        Regresa;
+    SiNo
+        iterador <- primero;
+
+        Mientras iterador.nombre != elemento y iterador != nulo Hacer
+            iterador <- iterador.siguiente;
+        FinMientras
+
+        Si iterador = null Entonces
+            Escribir "No se encontró el elemento!";
+            Regresa;
+        FinSi
+
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- iterador.siguiente;
+        iterador.siguiente <- nuevo;
+    FinSi
+FinSubalgoritmo
+
+Subalgoritmo insertarAntesDelNodo(elemento)
+    // La variable Elemento es, al menos en este caso, el elemento que se buscará para añadir el nuevo nodo si se encontró
+    Definir dato como Cadena;
+    Definir iterador Como EstructuraNombre;
+    Definir anterior Como EstructuraNombre; // a
+    anterior <- nulo;
+
+    Si primero = null Entonces
+        Escribir "No se pueden buscar nodos en una lista vacía!";
+        Regresa;
+    SiNo
+        Si primero.nombre = elemento Entonces
+            insertarInicio();
+            Regresa;
+        FinSi
+
+        iterador <- primero;
+
+        Mientras iterador.nombre != elemento y iterador != nulo Hacer
+            anterior <- iterador;
+            iterador <- iterador.siguiente;
+        FinMientras
+
+        Si iterador = null Entonces
+            Escribir "No se encontró el elemento!";
+            Regresa;
+        FinSi
+
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- anterior.siguiente;
+        anterior.siguiente <- nuevo;
+        nuevo.siguiente <- iterador;
+    FinSi
+FinSubalgoritmo
+
+Estructura EstructuraNombre
+    Definir nombre como Cadena;
+    Definir siguiente como EstructuraNombre;
+FinEstructura

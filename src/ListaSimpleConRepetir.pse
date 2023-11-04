@@ -1,0 +1,262 @@
+Definir primero como EstructuraNombre;  // p
+Definir nuevo como EstructuraNombre;    // w
+Definir ultimo como EstructuraNombre;   // u
+
+Estructura EstructuraNombre
+    Definir nombre como Cadena;
+    Definir siguiente como EstructuraNombre;
+FinEstructura
+
+Subalgoritmo insertarFinal()
+    Definir dato como Cadena;
+    
+    Si primero = nulo Entonces
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- nulo;
+
+        primero <- nuevo;
+        ultimo <- primero;
+    SiNo
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- nulo;
+
+        ultimo.siguiente <- nuevo;
+        ultimo <- nuevo;
+    FinSi
+FinSubalgoritmo
+
+Subalgoritmo insertarInicio()
+    Definir dato como Cadena;
+
+    Si primero = nulo Entonces
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- nulo;
+
+        primero <- nuevo;
+        ultimo <- primero;
+    SiNo
+        nuevo <- crearInstancia();
+        Leer dato;
+
+        nuevo.nombre <- dato;
+        nuevo.siguiente <- primero;
+        primero <- nuevo;
+    FinSi
+FinSubalgoritmo
+
+Subalgoritmo insertarDespuesDelNodo(elemento)
+    // La variable elemento es el elemento que se buscará para añadir el nuevo nodo si se encontró
+    Definir dato como Cadena;
+    Definir iterador Como EstructuraNombre; // R
+
+    Si primero = nulo Entonces
+        Escribir "No se pueden buscar nodos en una lista vacía!";
+        Regresa;
+    FinSi
+
+    iterador <- primero;
+
+    Mientras iterador.nombre != elemento y iterador.siguiente != nulo Hacer
+        iterador <- iterador.siguiente;
+    FinMientras
+
+    Si iterador.nombre != elemento Entonces         // Si no encontró el elemento durante el bucle, entonces iterador tendrá el valor final
+        Escribir "No se encontró el elemento!";     // de la lista, por lo que es necesario comprobar si el último elemento
+        Regresa;                                    // es el valor que estamos buscando
+    FinSi
+
+    nuevo <- crearInstancia();
+    Leer dato;
+
+    nuevo.nombre <- dato;
+    nuevo.siguiente <- iterador.siguiente;
+    iterador.siguiente <- nuevo;
+FinSubalgoritmo
+
+Subalgoritmo insertarAntesDelNodo(elemento)
+    // La variable elemento es el elemento que se buscará para añadir el nuevo nodo si se encontró
+    Definir dato como Cadena;
+    Definir iterador Como EstructuraNombre;
+    Definir anterior Como EstructuraNombre; // a
+    anterior <- nulo;
+
+    Si primero != nulo Entonces
+        Escribir "No se pueden buscar nodos en una lista vacía!";
+        Regresa;
+    FinSi
+
+    Si primero.nombre = elemento Entonces
+        insertarInicio();
+        Regresa;
+    FinSi
+
+    iterador <- primero;
+
+    Mientras iterador.nombre != elemento y iterador.siguiente != nulo Hacer
+        anterior <- iterador;
+        iterador <- iterador.siguiente;
+    FinMientras
+
+    Si iterador.nombre != elemento Entonces
+        Escribir "No se encontró el elemento!";
+        Regresa;
+    FinSi
+
+    nuevo <- crearInstancia();
+    Leer dato;
+
+    nuevo.nombre <- dato;
+    nuevo.siguiente <- anterior.siguiente;
+    anterior.siguiente <- nuevo;
+    nuevo.siguiente <- iterador;
+FinSubalgoritmo
+
+Subalgoritmo EliminarPrimero()
+    Definir eliminar como EstructuraNombre;
+    Definir iterador Como EstructuraNombre;
+    Definir anterior Como EstructuraNombre; // a
+
+    Si primero = nulo Entonces
+        Escribir "No se pudo eliminar, la lista está vacía!";
+        Regresa;
+    SiNo
+        eliminar <- primero;
+        primero <- primero.siguiente;
+        eliminar(eliminar);
+    FinSi
+FinSubalgoritmo
+
+Subalgoritmo EliminarUltimo()
+    Definir eliminar como EstructuraNombre;
+
+    Si primero = nulo Entonces
+        Escribir "No se pudo eliminar, la lista está vacía!";
+        Regresa;
+    FinSi
+
+    iterador <- primero;
+
+    Mientras iterador.siguiente != nulo Hacer
+        anterior <- iterador;
+        iterador <- iterador.siguiente;
+    FinMientras
+
+    anterior.siguiente <- nulo;
+    ultimo <- anterior;
+
+    eliminar(iterador); // En este momento, iterador es la única referencia que queda del úlitmo elemento
+FinSubalgoritmo
+
+Subalgoritmo EliminarEspecífico(elemento)
+    // La variable elemento es el elemento que se buscará para eliminar el nodo si se encontró
+    Definir eliminar como EstructuraNombre;
+    Definir iterador Como EstructuraNombre;
+    Definir anterior Como EstructuraNombre; // a
+
+    Si primero = nulo Entonces
+        Escribir "No se pudo eliminar, la lista está vacía!";
+        Regresa;
+    FinSi
+
+    Si primero.nombre = elemento Entonces
+        EliminarPrimero();
+        Regresa;
+    SiNo
+        Si ultimo.nombre = elemento Entonces
+            EliminarUltimo();
+            Regresa;
+        FinSi
+    FinSi
+
+    iterador <- primero;
+
+    Mientras iterador.siguiente != nulo y iterador.nombre != elemento Hacer
+        anterior <- iterador;
+        iterador <- iterador.siguiente;
+    FinMientras
+
+    Si iterador.nombre != elemento Entonces
+        Escribir "No se encontró el elemento!";
+        Regresa;
+    FinSi
+
+    anterior.siguiente <- iterador.siguiente;
+    eliminar(iterador);
+FinSubalgoritmo
+
+Subalgoritmo Buscar(elemento) <- EstructuraNombre
+    Definir iterador Como EstructuraNombre;
+
+    Si primero = nulo Entonces
+        Escribir "No se pudo buscar, la lista está vacía!";
+        Regresa;
+    FinSi
+
+    iterador <- primero;
+
+    Mientras iterador.siguiente != nulo y iterador.nombre != elemento Hacer
+        iterador <- iterador.siguiente;
+    FinMientras
+
+    Si iterador.nombre != elemento Entonces
+        Escribir "No se encontró el elemento!";
+        Regresa nulo;
+    FinSi
+
+    Regresa iterador;
+FinSubalgoritmo
+
+Subalgoritmo Modificar(elemento, reemplazo)
+// La variable reemplazo debe ser del mismo tipo que el de la estructura
+    Definir iterador Como EstructuraNombre;
+    Definir anterior Como EstructuraNombre; // a
+
+    Si primero = nulo Entonces
+        Escribir "No se pudo buscar, la lista está vacía!";
+        Regresa;
+    FinSi
+
+    iterador <- primero;
+
+    Mientras iterador.siguiente != nulo y iterador.nombre != elemento Hacer
+        anterior <- iterador;
+        iterador <- iterador.siguiente;
+    FinMientras
+
+    Si iterador.nombre != elemento Entonces
+        Escribir "No se encontró el elemento!";
+        Regresa;
+    FinSi
+
+    Si anterior != nulo Entonces
+        anterior.siguiente <- reemplazo;
+    FinSi
+
+    reemplazo.siguiente <- iterador.siguiente;
+    eliminar(iterador);
+FinSubalgoritmo
+
+Subalgoritmo ImprimirLista() // Se asume que a esta acción se le llamó "Reportes" en la tarea
+    Definir iterador Como EstructuraNombre;
+
+    Si primero = nulo Entonces
+        Escribir "No se pudo recorrer, la lista está vacía!";
+        Regresa;
+    FinSi
+
+    iterador <- primero;
+
+    Mientras iterador != nulo Hacer
+        Escribir "Elemento: ", iterador.nombre, ", ";
+        iterador <- iterador.siguiente;
+    FinMientras
+FinSubalgoritmo
